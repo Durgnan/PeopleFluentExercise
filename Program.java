@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 class Program {
@@ -24,15 +25,35 @@ class Program {
     {
         int totalApples = 0;
         int totalOranges = 0;
-        double appleCost = 0.3;
-        double orangeCost = 0.5/3;
+        double appleCost = 0.6;
+        double orangeCost = 0.25;
         double totalCost = 0;
-
-        for(int i = 0; i < items.length; i++)
+        HashMap<String,Integer> mapper = new HashMap<String,Integer>();
+        mapper.put("Apple", 0);
+        mapper.put("Orange", 0);
+        for(String item: items)
         {
-            String item = items[i];
-            totalCost += item.equals("Apple") ? appleCost : item.equals("Orange") ? orangeCost : 0;
+            switch(item)
+            {
+                case "Apple": mapper.put("Apple",mapper.get("Apple")+1); break; 
+                case "Orange": mapper.put("Orange",mapper.get("Orange")+1); break; 
+                default: break; 
+            }
         }
+
+        totalApples = mapper.get("Apple");
+        totalOranges = mapper.get("Orange");
+
+        totalCost = (((totalApples - totalApples%2)/2) * appleCost)+((totalApples%2)*appleCost);
+        totalCost += (totalOranges - totalOranges%3)/3 * (orangeCost*2)+((totalOranges%3)*orangeCost) ;
+
+        
+        // Step 2 Initial Approach
+        // for(int i = 0; i < items.length; i++)
+        // {
+        //     String item = items[i];
+        //     totalCost += item.equals("Apple") ? appleCost : item.equals("Orange") ? orangeCost : 0;
+        // }
 
         return "£"+ Math.round(totalCost*100.0)/100.0;
     }
